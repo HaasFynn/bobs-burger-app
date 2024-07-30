@@ -13,10 +13,10 @@ data class RealEstate(
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
-    @Column(name = "type_idfk")
+    @Column(name = "type")
     @ManyToOne(fetch = FetchType.EAGER)
     val type: RealEstateType,
-    @Column(name = "status_idfk")
+    @Column(name = "status")
     @ManyToOne(fetch = FetchType.EAGER)
     val realEstateStatus: RealEstateStatus,
     @Column(name = "price")

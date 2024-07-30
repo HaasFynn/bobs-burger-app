@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  postgre:
+    build: .
+    container_name: postgre
+    environment:
+      POSTGRES_PASSWORD: 1123
+    ports:
+      - "5432:5432"

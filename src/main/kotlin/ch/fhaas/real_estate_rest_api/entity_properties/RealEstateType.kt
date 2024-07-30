@@ -5,7 +5,7 @@ import kotlin.random.Random
 
 @Table(name = "type")
 enum class RealEstateType {
-    RESIDENTAL,
+    RESIDENTIAL,
     COMMERCIAL,
     LAND;
 
