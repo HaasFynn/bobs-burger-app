@@ -4,12 +4,13 @@ import jakarta.persistence.Table
 import kotlin.random.Random
 
 @Table(name = "type")
-enum class RealEstateType {
+enum class Type {
     RESIDENTIAL,
     COMMERCIAL,
-    LAND;
+    LAND,
+    UNDEFINED;
 
-    fun getRandType(): RealEstateType {
+    fun getRandType(): Type {
         return entries[Random.nextInt(0, entries.size - 1)]
     }
 }

@@ -4,12 +4,13 @@ import jakarta.persistence.Table
 import kotlin.random.Random
 
 @Table(name = "status")
-enum class RealEstateStatus {
+enum class Status {
     Sale,
     RENT,
-    SOLD;
+    SOLD,
+    UNDEFINED;
 
-    fun getRandStatus(): RealEstateStatus {
+    fun getRandStatus(): Status {
         return entries.get(Random.nextInt(0, entries.size - 1))
     }
 }
