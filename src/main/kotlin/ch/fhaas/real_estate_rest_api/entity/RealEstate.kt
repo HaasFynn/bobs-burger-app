@@ -15,13 +15,15 @@ data class RealEstate(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     val type: Type,
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     val status: Status,
     @Column(name = "price")
     val price: Double,
     @ManyToOne
-    @JoinTable(name = "agent")
+    @JoinColumn(name = "agent_idfk")
     var agent: Agent,
     @Column(name = "address")
     val address: String,
