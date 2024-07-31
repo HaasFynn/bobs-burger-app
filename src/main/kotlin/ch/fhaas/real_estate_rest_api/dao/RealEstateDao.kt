@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RealEstateDao: CrudRepository<RealEstate, Long> {
-}
+interface RealEstateDao: CrudRepository<RealEstate, Long>

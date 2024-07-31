@@ -14,19 +14,23 @@ class RequestHandler(private val realEstateDao: RealEstateDao) {
     // ETL Pipeline with *Spring Cloud Task* -> https://www.baeldung.com/spring-cloud-data-flow-etl
 
     @RequestMapping("/")
-    fun main() {
-
+    private fun main(): Any {
+        return """
+            |<h1>Home Page</h1>
+            |<p>To be continued...</p>
+            |
+        """.trimMargin()
     }
 
     @GetMapping("/test")
     @ResponseBody
-    fun helloWorld(): Any {
+    private fun helloWorld(): Any {
         return "<h1>Test Succeeded</h1>"
     }
 
     @GetMapping("/generated-data")
     @ResponseBody
-    fun getGeneratedValues(@RequestParam("amount") amount: Int): Any {
+    private fun getGeneratedValues(@RequestParam("amount") amount: Int): Any {
         if (amount == 0) return HttpStatus.BAD_REQUEST
         return getListOfRealEstates(amount)
     }
@@ -35,7 +39,7 @@ class RequestHandler(private val realEstateDao: RealEstateDao) {
 
     @GetMapping("/real-data")
     @ResponseBody
-    fun get(@RequestParam("amount") amount: Int): Any {
+    private fun get(@RequestParam("amount") amount: Int): Any {
         if (amount == 0) return HttpStatus.BAD_REQUEST
         TODO("implement Requester")
     }
