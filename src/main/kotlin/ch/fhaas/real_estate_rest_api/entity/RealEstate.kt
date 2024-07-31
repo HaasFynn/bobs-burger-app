@@ -1,29 +1,28 @@
 package ch.fhaas.real_estate_rest_api.entity
 
-import ch.fhaas.real_estate_rest_api.entity_properties.RealEstateStatus
-import ch.fhaas.real_estate_rest_api.entity_properties.RealEstateType
+import ch.fhaas.real_estate_rest_api.entity_properties.Status
+import ch.fhaas.real_estate_rest_api.entity_properties.Type
 import jakarta.persistence.*
 import lombok.Getter
 import java.sql.Date
 
 @Getter
-@Table(name = "RealEstate")
+@Table(name = "real_estate")
+@Entity
 data class RealEstate(
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @Column(name = "type")
-    @ManyToOne(fetch = FetchType.EAGER)
-    val type: RealEstateType,
+    val type: Type,
     @Column(name = "status")
-    @ManyToOne(fetch = FetchType.EAGER)
-    val realEstateStatus: RealEstateStatus,
+    val status: Status,
     @Column(name = "price")
     val price: Double,
-    @Column(name = "agent_idfk")
-    @ManyToOne(fetch = FetchType.EAGER)
-    val agent: Agent,
+    @ManyToOne
+    @JoinTable(name = "agent")
+    var agent: Agent,
     @Column(name = "address")
     val address: String,
     @Column(name = "size_in_mm")
@@ -35,5 +34,18 @@ data class RealEstate(
     @Column(name = "has_garage")
     val hasGarage: Boolean,
     @Column(name = "built_date")
-    val builtDate: Date
-)
+    var builtDate: Date?
+) {
+    constructor() : this(
+        0L,
+        Type.UNDEFINED,
+        Status.UNDEFINED,
+        0.0, Agent(),
+        "",
+        0L,
+        0,
+        0,
+        false,
+        null
+    )
+}
