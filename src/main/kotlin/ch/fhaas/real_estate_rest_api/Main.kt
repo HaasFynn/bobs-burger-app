@@ -7,5 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class Main
 
 fun main(args: Array<String>) {
+    System.setProperty("java.awt.headless", "false")
     SpringApplication.run(RequestHandler::class.java, * args)
 }
+
+
+
+

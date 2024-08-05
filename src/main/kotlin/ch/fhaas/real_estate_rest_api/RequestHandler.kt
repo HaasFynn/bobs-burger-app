@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
-@RestController
+@RestController("/")
 @ComponentScan
 class RequestHandler(private val realEstateDao: RealEstateDao) {
 
@@ -31,13 +31,11 @@ class RequestHandler(private val realEstateDao: RealEstateDao) {
     }
 
     @GetMapping("/test")
-    @ResponseBody
     private fun helloWorld(): Any {
         return "<h1>Test Succeeded</h1>"
     }
 
     @GetMapping("/generated-data")
-    @ResponseBody
     private fun getGeneratedValues(@RequestParam("amount") amount: Int): Any {
         if (amount == 0) return HttpStatus.BAD_REQUEST
         val list: List<RealEstate> = getListOfRealEstates(amount)
@@ -56,7 +54,6 @@ class RequestHandler(private val realEstateDao: RealEstateDao) {
     private fun getListOfRealEstates(amount: Int) = realEstateDao.findAll().take(amount)
 
     @GetMapping("/real-data")
-    @ResponseBody
     private fun get(@RequestParam("amount") amount: Int): Any {
         if (amount == 0) return HttpStatus.BAD_REQUEST
         TODO("implement Requester")
