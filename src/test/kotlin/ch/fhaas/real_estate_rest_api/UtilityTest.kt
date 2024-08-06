@@ -20,7 +20,7 @@ class UtilityTest {
     //Wrong Url given
     @Test
     fun browserDoesOpen2() {
-        assertTrue(openUrl(BROKEN_DOMAIN))
+        assertFalse(openUrl(BROKEN_DOMAIN))
     }
 
     //Working Url given
@@ -32,7 +32,7 @@ class UtilityTest {
     //Wrong Url given
     @Test
     fun isValidUrlTest2() {
-        assertTrue(isValidUrl(BROKEN_DOMAIN))
+        assertFalse(isValidUrl(BROKEN_DOMAIN))
     }
 
 
