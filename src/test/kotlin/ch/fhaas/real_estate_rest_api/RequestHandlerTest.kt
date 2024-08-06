@@ -8,5 +8,10 @@ class RequestHandlerTest {
     @Test
     fun testHomePage() {
         SpringApplication.run(RequestHandler::class.java, *arrayOf())
+        getResponses()
+    }
+
+    private fun getResponses() {
+        TODO("Not yet implemented")
     }
 }
