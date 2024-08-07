@@ -1,6 +1,11 @@
 package ch.fhaas.real_estate_rest_api.entity
 
-import org.springframework.stereotype.Component
+import ch.fhaas.real_estate_rest_api.entity_properties.Season
 
-@Component
-data class StoreNextDoor()
+data class StoreNextDoor(
+    val name: String,
+    val firstSeason: Season,
+    val firstEpisode: Episode,
+    val imageUrl: String,
+    val url: String
+)

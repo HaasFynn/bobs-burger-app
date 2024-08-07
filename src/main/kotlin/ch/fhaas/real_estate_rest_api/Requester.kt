@@ -5,7 +5,6 @@ import com.mashape.unirest.http.HttpResponse
 import com.mashape.unirest.http.Unirest
 import com.mashape.unirest.request.GetRequest
 import org.springframework.stereotype.Service
-import java.util.HashMap
 
 @Service
 class Requester(

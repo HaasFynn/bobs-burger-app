@@ -2,7 +2,9 @@ package ch.fhaas.real_estate_rest_api
 
 import ch.fhaas.real_estate_rest_api.dao.*
 import org.springframework.context.annotation.ComponentScan
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController("/")
