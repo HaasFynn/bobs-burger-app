@@ -1,11 +1,8 @@
 package ch.fhaas.real_estate_rest_api.entity
 
-import ch.fhaas.real_estate_rest_api.entity_properties.Occupation
-import ch.fhaas.real_estate_rest_api.entity_properties.Relatives
-import ch.fhaas.real_estate_rest_api.entity_properties.VoiceActor
-
-data class Character(
-    val name: String,
+class Character(
+    name: String,
+    wikiUrl: String,
     val relatives: List<Relatives>?,
     val imageUrl: String,
     val gender: String?,
@@ -15,5 +12,4 @@ data class Character(
     val allOccupations: List<Occupation>?,
     val firstEpisode: Episode,
     val voicedBy: VoiceActor,
-    val wikiUrl: String,
-)
+) : Entity(name, wikiUrl)

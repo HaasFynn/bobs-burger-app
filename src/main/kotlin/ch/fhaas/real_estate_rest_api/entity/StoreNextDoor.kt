@@ -1,11 +1,9 @@
 package ch.fhaas.real_estate_rest_api.entity
 
-import ch.fhaas.real_estate_rest_api.entity_properties.Season
-
-data class StoreNextDoor(
-    val name: String,
+class StoreNextDoor(
+    name: String,
+    wikiUrl: String,
     val firstSeason: Season,
     val firstEpisode: Episode,
-    val imageUrl: String,
-    val url: String
-)
+    val imageUrl: String
+): Entity(name, wikiUrl)

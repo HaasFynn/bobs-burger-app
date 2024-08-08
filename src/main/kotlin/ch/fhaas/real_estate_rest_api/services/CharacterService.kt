@@ -2,7 +2,7 @@ package ch.fhaas.real_estate_rest_api.services
 
 import ch.fhaas.real_estate_rest_api.RequestClient
 import ch.fhaas.real_estate_rest_api.entity.Character
-import ch.fhaas.real_estate_rest_api.entity_properties.VoiceActor
+import ch.fhaas.real_estate_rest_api.entity.VoiceActor
 import org.json.JSONArray
 import org.springframework.stereotype.Service
 
