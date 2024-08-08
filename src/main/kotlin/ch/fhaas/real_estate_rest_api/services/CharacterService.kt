@@ -7,7 +7,7 @@ import org.json.JSONArray
 import org.springframework.stereotype.Service
 
 @Service
-class CharacterService(private val requestClient: RequestClient) : EntityService<Character>() {
+class CharacterService(private val requestClient: RequestClient) : EntityService<Character> {
 
     private val ending = "character"
 
@@ -65,5 +65,5 @@ class CharacterService(private val requestClient: RequestClient) : EntityService
         TODO("Implement JsonEntityConverter")
     }
 
-    private fun request(url: String) = requestClient.request(url, emptyMap())
+    private fun request(url: String) = requestClient.request(url)
 }
