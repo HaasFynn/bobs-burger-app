@@ -1,7 +1,7 @@
 package ch.fhaas.real_estate_rest_api.entity
 
 
-class Relatives(
+class Relative(
     name: String,
     val relation: String,
     wikiUrl: String
