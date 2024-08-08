@@ -6,7 +6,6 @@ class Episode(
     wikiUrl: String,
     val productionCode: String,
     val airDate: String,
-    val season: Season,
     val episodeNum: Int,
     val totalViewers: Int,
 ):Entity(name, wikiUrl)
