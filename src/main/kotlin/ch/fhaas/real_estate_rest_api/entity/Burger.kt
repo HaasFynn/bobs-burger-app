@@ -3,7 +3,7 @@ package ch.fhaas.real_estate_rest_api.entity
 import ch.fhaas.real_estate_rest_api.entity_properties.Season
 
 
-data class BurgerOfTheDay(
+data class Burger(
     val name: String,
     val price: Double,
     val season: Season,
