@@ -6,16 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
-/*
-    private val characterRepo: CharacterRepository,
-    private val burgerOfTheDayRepo: BurgerOfTheDayRepository,
-    private val episodeRepo: EpisodeRepository,
-    private val storeNextDoorRepo: StoreNextDoorRepository,
-    private val pestControlTruckRepo: PestControlTruckRepository,
-    private val endCreditsSequenceRepo: EndCreditsSequenceRepository,
- */
-
 @RestController("/")
 @ComponentScan
 class RequestHandler(private val characterService: CharacterService) {

@@ -1,12 +1,9 @@
 package ch.fhaas.real_estate_rest_api.entity
 
-import ch.fhaas.real_estate_rest_api.entity_properties.Season
-
-
-data class Burger(
-    val name: String,
+class Burger(
+    name: String,
+    wikiUrl: String,
     val price: Double,
     val season: Season,
-    val episode: Episode,
-    val wikiUrl: String
-)
+    val episode: Episode
+): Entity(name, wikiUrl)
