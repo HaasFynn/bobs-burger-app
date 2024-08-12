@@ -11,54 +11,54 @@ class CharacterService(private val requestClient: RequestClient) : EntityService
 
     private val ending = "character"
 
-    override fun get(amount: Int): List<Result<Character>> {
+    override fun get(amount: Int): List<Character> {
         var url: String = BASE_URL + ending
         if (amount > 0) url += "?limit=$amount"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    override fun getAll(): List<Result<Character>> {
+    override fun getAll(): List<Character> {
         val url: String = BASE_URL + ending
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    override fun getByName(name: String): Result<Character> {
+    override fun getByName(name: String): Character {
         val url = "$BASE_URL$ending?name=$name"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    fun getByGender(gender: String, amount: Int = 0): List<Result<Character>> {
+    fun getByGender(gender: String, amount: Int = 0): List<Character> {
         var url = "$BASE_URL$ending?gender=$gender"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    fun getByAge(age: Int, amount: Int = 0): List<Result<Character>> {
+    fun getByAge(age: Int, amount: Int = 0): List<Character> {
         var url = "$BASE_URL$ending?age=$age"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    fun getByHair(hair: String, amount: Int = 0): List<Result<Character>> {
+    fun getByHair(hair: String, amount: Int = 0): List<Character> {
         var url = "$BASE_URL$ending?hair=$hair"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    fun getByOccupation(occupation: String, amount: Int = 0): List<Result<Character>> {
+    fun getByOccupation(occupation: String, amount: Int = 0): List<Character> {
         var url = "$BASE_URL$ending?occupation=$occupation"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
         TODO("Implement JsonEntityConverter")
     }
 
-    fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Result<Character>> {
+    fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> {
         var url = "$BASE_URL$ending?voicedBy=${voiceActor.name}"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
