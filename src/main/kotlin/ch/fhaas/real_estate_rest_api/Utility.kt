@@ -26,6 +26,6 @@ fun openUrl(url: String): Boolean {
 }
 
 fun isValidUrl(url: String): Boolean {
-    val regex = Regex("""https?://([A-z0-9]|-|/|\.)+/?(([A-z0-9]|-|/|\.)+)?""")
+    val regex = Regex("""https?://([A-z0-9]|-|/|\.|:)+/?(([A-z0-9]|-|/|\.)+)?""")
     return url.matches(regex)
 }
