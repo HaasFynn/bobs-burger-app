@@ -6,8 +6,8 @@ import org.json.JSONArray
 import org.springframework.stereotype.Service
 
 @Service
-class RequestClient {
-
+class
+RequestClient {
     fun request(url: String, headers: Map<String, String> = emptyMap()): JSONArray {
         return try {
             val request = Unirest.get(url).headers(headers)
@@ -18,5 +18,4 @@ class RequestClient {
             JSONArray()
         }
     }
-
 }
