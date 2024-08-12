@@ -1,4 +1,4 @@
-package ch.fhaas.real_estate_rest_api
+package ch.fhaas.real_estate_rest_api.services
 
 import ch.fhaas.real_estate_rest_api.entity.Entity
 import org.springframework.http.HttpStatus
@@ -12,7 +12,4 @@ class ResponseFormer(private val resultHandler: ResultHandler) {
         if (result == null) return ResponseEntity(null, HttpStatus.BAD_REQUEST)
         return ResponseEntity(result, HttpStatus.OK)
     }
-
-    fun <T : Entity> listResponseOf(resultList: List<Result<T>>): ResponseEntity<List<T>> =
-        ResponseEntity(resultHandler.entityListOf(resultList), HttpStatus.OK)
 }

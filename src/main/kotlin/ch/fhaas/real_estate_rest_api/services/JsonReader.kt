@@ -1,4 +1,4 @@
-package ch.fhaas.real_estate_rest_api
+package ch.fhaas.real_estate_rest_api.services
 
 import ch.fhaas.real_estate_rest_api.entity.*
 import org.json.JSONArray
@@ -14,23 +14,23 @@ class JsonReader(private val resultHandler: ResultHandler) {
             Character(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
-                relatives = resultHandler.entityListOf(
+                relatives = resultHandler.getListOfResult(
                     getArray(json.getJSONArray("relatives"), this::getRelative)
                 ),
                 imageUrl = json.getString("imageUrl"),
                 gender = json.getString("gender"),
                 age = json.getInt("age"),
                 hair = json.getString("hair"),
-                occupation = resultHandler.entityOf(
+                occupation = resultHandler.getEntityOfResult(
                     getOccupation(json.getJSONObject("occupation"))
                 ),
-                allOccupations = resultHandler.entityListOf(
+                allOccupations = resultHandler.getListOfResult(
                     getArray(json.getJSONArray("allOccupations"), this::getOccupation)
                 ),
-                firstEpisode = resultHandler.entityOf(
+                firstEpisode = resultHandler.getEntityOfResult(
                     getEpisode(json.getJSONObject("firstEpisode"))
                 ),
-                voicedBy = resultHandler.entityOf(
+                voicedBy = resultHandler.getEntityOfResult(
                     getVoiceActor(json.getJSONObject("voicedBy"))
                 )
             )

@@ -1,8 +1,8 @@
-package ch.fhaas.real_estate_rest_api.services
+package ch.fhaas.real_estate_rest_api.services.entity_services
 
-import ch.fhaas.real_estate_rest_api.JsonReader
-import ch.fhaas.real_estate_rest_api.RequestClient
-import ch.fhaas.real_estate_rest_api.ResultHandler
+import ch.fhaas.real_estate_rest_api.services.JsonReader
+import ch.fhaas.real_estate_rest_api.services.RequestClient
+import ch.fhaas.real_estate_rest_api.services.ResultHandler
 import ch.fhaas.real_estate_rest_api.entity.Character
 import ch.fhaas.real_estate_rest_api.entity.VoiceActor
 import org.json.JSONArray
@@ -34,7 +34,7 @@ class CharacterService(
         val url = "$BASE_URL$ending?name=$name"
         val json: JSONArray = request(url)
         val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(0))
-        return resultHandler.entityOf(result)
+        return resultHandler.getEntityOfResult(result)
     }
 
     fun getByGender(gender: String, amount: Int = 0): List<Character> {
@@ -75,7 +75,7 @@ class CharacterService(
     private fun getListOfCharacters(json: JSONArray): List<Character> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(index))
-            val entity: Character? = resultHandler.entityOf(result)
+            val entity: Character? = resultHandler.getEntityOfResult(result)
             entity?.let { list + it } ?: list
         }
 

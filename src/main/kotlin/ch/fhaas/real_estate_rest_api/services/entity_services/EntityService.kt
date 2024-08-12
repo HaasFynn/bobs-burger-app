@@ -1,4 +1,4 @@
-package ch.fhaas.real_estate_rest_api.services
+package ch.fhaas.real_estate_rest_api.services.entity_services
 
 const val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
 
