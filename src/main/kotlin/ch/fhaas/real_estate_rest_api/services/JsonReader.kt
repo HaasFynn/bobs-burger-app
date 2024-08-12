@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class JsonReader(private val resultHandler: ResultHandler) {
 
-    fun getCharacter(json: JSONObject): Result<Character> =
-        runCatching {
+    fun getCharacter(json: JSONObject): Result<Character> = getEntity(
             Character(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
@@ -34,17 +33,15 @@ class JsonReader(private val resultHandler: ResultHandler) {
                     getVoiceActor(json.getJSONObject("voicedBy"))
                 )
             )
-        }
+    )
 
-    fun getVoiceActor(json: JSONObject): Result<VoiceActor> =
-        runCatching {
+    fun getVoiceActor(json: JSONObject): Result<VoiceActor> = getEntity(
             VoiceActor(
                 name = json.getString("name"),
             )
-        }
+    )
 
-    fun getEpisode(json: JSONObject): Result<Episode> =
-        runCatching {
+    fun getEpisode(json: JSONObject): Result<Episode> = getEntity(
             Episode(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
@@ -53,28 +50,32 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 episodeNum = json.getInt("episode"),
                 totalViewers = json.getInt("totalViewers")
             )
-        }
+    )
 
-    fun getSeason(json: JSONObject): Result<Season> = runCatching {
+    fun getSeason(json: JSONObject): Result<Season> = getEntity(
         Season(
             seasonNumber = json.getInt("season"), episodes = emptyList() //TODO: Get all Episodes of season
         )
-    }
+    )
 
-    fun getRelative(json: JSONObject): Result<Relative> =
-        runCatching {
+    fun getRelative(json: JSONObject): Result<Relative> = getEntity(
             Relative(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
                 relation = json.getString("relationship")
             )
-        }
+    )
 
-    fun getOccupation(json: JSONObject): Result<Occupation> =
-        runCatching {
+    fun getOccupation(json: JSONObject): Result<Occupation> = getEntity(
             Occupation(
                 name = json.getString("name"),
             )
+    )
+
+    fun <T : Entity> getEntity(entity: T): Result<T> = try {
+        Result.success(entity)
+    } catch (e: NullPointerException) {
+        Result.failure(e)
         }
 
 
