@@ -32,7 +32,7 @@ class BurgerService(
         return getListOfEntity(json, getAction = getAction)
     }
 
-    override fun getByName(name: String): Burger? {
+    fun getByName(name: String): Burger? {
         val url = "${BASE_URL}${ENDING}?name=$name"
         val json: JSONArray = request(url)
         val result: Result<Burger> = jsonReader.getResultOfBurger(json.getJSONObject(0))

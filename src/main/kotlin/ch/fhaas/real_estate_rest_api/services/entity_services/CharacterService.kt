@@ -32,7 +32,7 @@ class CharacterService(
         return getListOfEntity(json, getAction = getAction)
     }
 
-    override fun getByName(name: String): Character? {
+    fun getByName(name: String): Character? {
         val url = "${BASE_URL}${ENDING}?name=$name"
         val json: JSONArray = request(url)
         val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(0))

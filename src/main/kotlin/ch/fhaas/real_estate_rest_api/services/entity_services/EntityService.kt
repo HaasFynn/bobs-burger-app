@@ -22,7 +22,6 @@ abstract class EntityService<T : Entity>(
 
     abstract fun get(amount: Int): List<T>
     abstract fun getAll(): List<T>
-    abstract fun getByName(name: String): T?
 
     protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> Result<T>): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
