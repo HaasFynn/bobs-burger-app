@@ -10,7 +10,3 @@ fun main(args: Array<String>) {
     SpringApplication.run(RequestHandler::class.java, * args)
     openUrl("http://localhost:8080")
 }
-
-
-
-

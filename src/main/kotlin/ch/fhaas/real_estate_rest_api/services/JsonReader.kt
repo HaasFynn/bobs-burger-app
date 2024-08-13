@@ -9,39 +9,49 @@ import org.springframework.stereotype.Service
 @Service
 class JsonReader(private val resultHandler: ResultHandler) {
 
-    fun getCharacter(json: JSONObject): Result<Character> = getEntity(
+    fun getCharacter(json: JSONObject): Result<Character> = getResultOfEntity(
             Character(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
-                relatives = resultHandler.getListOfResult(
-                    getArray(json.getJSONArray("relatives"), this::getRelative)
-                ),
+                relatives = getRelatives(json.getJSONArray("relatives")),
                 imageUrl = json.getString("imageUrl"),
                 gender = json.getString("gender"),
                 age = json.getInt("age"),
                 hair = json.getString("hair"),
-                occupation = resultHandler.getEntityOfResult(
-                    getOccupation(json.getJSONObject("occupation"))
-                ),
-                allOccupations = resultHandler.getListOfResult(
-                    getArray(json.getJSONArray("allOccupations"), this::getOccupation)
-                ),
-                firstEpisode = resultHandler.getEntityOfResult(
-                    getEpisode(json.getJSONObject("firstEpisode"))
-                ),
-                voicedBy = resultHandler.getEntityOfResult(
-                    getVoiceActor(json.getJSONObject("voicedBy"))
-                )
+                occupation = getCurrentOccupation(json.getJSONObject("occupation")),
+                allOccupations = getOccupations(json.getJSONArray("allOccupations")),
+                firstEpisode = getFirstEpisode(json.getJSONObject("firstEpisode")),
+                voicedBy = getVoiceActor(json.getJSONObject("voicedBy"))
             )
     )
 
-    fun getVoiceActor(json: JSONObject): Result<VoiceActor> = getEntity(
+    private fun getVoiceActor(json: JSONObject): VoiceActor? = resultHandler.getEntityOfResult(
+        getResultOfVoiceActor(json)
+    )
+
+    private fun getFirstEpisode(json: JSONObject): Episode? = resultHandler.getEntityOfResult(
+        getResultOfEpisode(json)
+    )
+
+    private fun getOccupations(json: JSONArray): List<Occupation> = resultHandler.getListOfResult(
+        getResultOfArray(json, this::getResultOfOccupation)
+    )
+
+    private fun getCurrentOccupation(json: JSONObject): Occupation? = resultHandler.getEntityOfResult(
+        getResultOfOccupation(json)
+    )
+
+    private fun getRelatives(json: JSONArray): List<Relative> = resultHandler.getListOfResult(
+        getResultOfArray(json, this::getRelative),
+    )
+
+    fun getResultOfVoiceActor(json: JSONObject): Result<VoiceActor> = getResultOfEntity(
             VoiceActor(
                 name = json.getString("name"),
             )
     )
 
-    fun getEpisode(json: JSONObject): Result<Episode> = getEntity(
+    fun getResultOfEpisode(json: JSONObject): Result<Episode> = getResultOfEntity(
             Episode(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
@@ -52,13 +62,13 @@ class JsonReader(private val resultHandler: ResultHandler) {
             )
     )
 
-    fun getSeason(json: JSONObject): Result<Season> = getEntity(
+    fun getSeason(json: JSONObject): Result<Season> = getResultOfEntity(
         Season(
             seasonNumber = json.getInt("season"), episodes = emptyList() //TODO: Get all Episodes of season
         )
     )
 
-    fun getRelative(json: JSONObject): Result<Relative> = getEntity(
+    fun getRelative(json: JSONObject): Result<Relative> = getResultOfEntity(
             Relative(
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
@@ -66,20 +76,20 @@ class JsonReader(private val resultHandler: ResultHandler) {
             )
     )
 
-    fun getOccupation(json: JSONObject): Result<Occupation> = getEntity(
+    fun getResultOfOccupation(json: JSONObject): Result<Occupation> = getResultOfEntity(
             Occupation(
                 name = json.getString("name"),
             )
     )
 
-    fun <T : Entity> getEntity(entity: T): Result<T> = try {
+    fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
         Result.success(entity)
     } catch (e: NullPointerException) {
         Result.failure(e)
         }
 
 
-    fun <T : Entity> getArray(json: JSONArray, getEntity: (obj: JSONObject) -> (Result<T>)): List<Result<T>> =
+    fun <T : Entity> getResultOfArray(json: JSONArray, getEntity: (obj: JSONObject) -> (Result<T>)): List<Result<T>> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val obj = json.getJSONObject(index)
             val result: Result<T> = getEntity(obj)
