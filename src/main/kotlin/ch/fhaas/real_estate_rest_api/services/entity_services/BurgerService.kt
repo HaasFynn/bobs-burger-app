@@ -16,7 +16,7 @@ class BurgerService(
     override val getAction = jsonReader::getResultOfBurger
 
     companion object {
-        private const val ENDING = "character"
+        private const val ENDING = "burger"
     }
 
     override fun get(amount: Int): List<Burger> {
