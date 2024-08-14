@@ -1,4 +1,4 @@
-package ch.fhaas.real_estate_rest_api
+package ch.fhaas.real_estate_rest_api.services
 
 import com.mashape.unirest.http.Unirest
 import com.mashape.unirest.http.exceptions.UnirestException
