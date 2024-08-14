@@ -4,6 +4,6 @@ class Burger(
     name: String,
     wikiUrl: String,
     val price: Double,
-    val season: Season,
-    val episode: Episode
+    val season: Season?,
+    val episode: Episode?
 ): Entity(name, wikiUrl)
