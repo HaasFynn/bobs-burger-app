@@ -13,7 +13,7 @@ abstract class EntityService<T : Entity>(
     protected val resultHandler: ResultHandler,
     private val requestClient: RequestClient,
     protected val urlPath: String,
-    protected val getAction: KFunction1<JSONObject, Result<T>>
+    protected val getAction: KFunction1<JSONObject, T?>
 ) {
     companion object {
         @JvmStatic
@@ -33,10 +33,9 @@ abstract class EntityService<T : Entity>(
         return getListOfEntity(json, getAction = getAction)
     }
 
-    protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> Result<T>): List<T> =
+    protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> T?): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
-            val result: Result<T> = getAction(json.getJSONObject(index))
-            val entity: T? = resultHandler.getEntityOfResult(result)
+            val entity: T? = getAction(json.getJSONObject(index))
             entity?.let { list + it } ?: list
         }
 

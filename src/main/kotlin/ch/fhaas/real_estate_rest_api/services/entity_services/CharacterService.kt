@@ -16,8 +16,7 @@ class CharacterService(
     fun getByName(name: String): Character? {
         val url = "${BASE_URL}${urlPath}?name=$name"
         val json: JSONArray = request(url)
-        val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(0))
-        return resultHandler.getEntityOfResult(result)
+        return jsonReader.getCharacter(json.getJSONObject(0))
     }
 
     fun getByGender(gender: String, amount: Int = 0): List<Character> {

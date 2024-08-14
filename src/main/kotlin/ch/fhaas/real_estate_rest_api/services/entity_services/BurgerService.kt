@@ -19,8 +19,7 @@ class BurgerService(
     fun getByName(name: String): Burger? {
         val url = "${BASE_URL}${urlPath}?name=$name"
         val json: JSONArray = request(url)
-        val result: Result<Burger> = jsonReader.getResultOfBurger(json.getJSONObject(0))
-        return resultHandler.getEntityOfResult(result)
+        return jsonReader.getResultOfBurger(json.getJSONObject(0))
     }
 
     fun getByPrice(price: Double): List<Burger> {
