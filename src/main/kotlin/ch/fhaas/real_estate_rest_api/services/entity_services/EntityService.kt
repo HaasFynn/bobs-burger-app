@@ -12,19 +12,19 @@ abstract class EntityService<T : Entity>(
     protected val jsonReader: JsonReader,
     protected val resultHandler: ResultHandler,
     private val requestClient: RequestClient,
-    protected val urlPath: String,
+    private val urlPath: String,
     protected val getAction: KFunction1<JSONObject, T?>
 ) {
     companion object {
         @JvmStatic
-        protected val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
+        private val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
     }
 
     fun get(amount: Int): List<T> =
-        getAmount(BASE_URL + urlPath, amount)
+        getAmount(buildUrl(), amount)
 
     fun getAll(): List<T> =
-        getAmount(BASE_URL + urlPath, 0)
+        getAmount(buildUrl(), 0)
 
 
     protected fun get(url: String): T? {
@@ -32,9 +32,8 @@ abstract class EntityService<T : Entity>(
         return getAction(json.getJSONObject(0))
     }
 
-    protected fun getAmount(url: String, amount: Int): List<T> {
-        var varUrl: String = url
-        if (amount > 0) varUrl += "&amount=$amount"
+    protected fun getAmount(urlExtra: String, amount: Int): List<T> {
+        val url: String = buildUrl(amount, urlExtra)
         val json: JSONArray = request(url)
         return getListOfEntity(json)
     }
@@ -46,5 +45,9 @@ abstract class EntityService<T : Entity>(
         }
 
     private fun request(url: String) = requestClient.request(url)
+
+    private fun buildUrl(amount: Int = 0, vararg extras: String): String {
+        return BASE_URL + urlPath + extras + if (amount > 0) "?amount=$amount" else ""
+    }
 
 }

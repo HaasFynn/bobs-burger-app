@@ -13,21 +13,21 @@ class CharacterService(
 ) : EntityService<Character>(jsonReader, resultHandler, requestClient, "character", jsonReader::getCharacter) {
 
     fun getByName(name: String): Character? =
-        get("${BASE_URL}${urlPath}?name=$name")
+        get("?name=$name")
 
     fun getByGender(gender: String, amount: Int = 0): List<Character> =
-        getAmount("${BASE_URL}${urlPath}?gender=$gender", amount)
+        getAmount("?gender=$gender", amount)
 
     fun getByAge(age: Int, amount: Int = 0): List<Character> =
-        getAmount("${BASE_URL}${urlPath}?age=$age", amount)
+        getAmount("?age=$age", amount)
 
     fun getByHair(hair: String, amount: Int = 0): List<Character> =
-        getAmount("${BASE_URL}${urlPath}?hair=$hair", amount)
+        getAmount("?hair=$hair", amount)
 
     fun getByOccupation(occupation: String, amount: Int = 0): List<Character> =
-        getAmount("${BASE_URL}${urlPath}?occupation=$occupation", amount)
+        getAmount("?occupation=$occupation", amount)
 
     fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> =
-        getAmount("${BASE_URL}${urlPath}?voicedBy=${voiceActor.name}", amount)
+        getAmount("?voicedBy=${voiceActor.name}", amount)
 
 }

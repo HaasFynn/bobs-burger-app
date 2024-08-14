@@ -61,27 +61,6 @@ class JsonReader(private val resultHandler: ResultHandler) {
             )
 
 
-    fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
-        Result.success(entity)
-    } catch (e: NullPointerException) {
-        Result.failure(e)
-        }
-
-    fun <T : Entity> getListOf(json: JSONArray, getEntity: (obj: JSONObject) -> (T?)): List<T> =
-        (0 until json.length()).fold(emptyList()) { list, index ->
-            val obj = json.getJSONObject(index)
-            val entity: T? = getEntity(obj)
-            entity?.let { list + entity } ?: list
-        }
-
-
-    fun <T : Entity> getResultOfArray(json: JSONArray, getEntity: (obj: JSONObject) -> (Result<T>)): List<Result<T>> =
-        (0 until json.length()).fold(emptyList()) { list, index ->
-            val obj = json.getJSONObject(index)
-            val result: Result<T> = getEntity(obj)
-            return list + result
-        }
-
     fun getBurger(json: JSONObject): Burger? =
         Burger(
             name = json.getString("name"),
@@ -109,4 +88,24 @@ class JsonReader(private val resultHandler: ResultHandler) {
             imageUrl = json.getString("url")
         )
 
+    fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
+        Result.success(entity)
+    } catch (e: NullPointerException) {
+        Result.failure(e)
+    }
+
+    fun <T : Entity> getListOf(json: JSONArray, getEntity: (obj: JSONObject) -> (T?)): List<T> =
+        (0 until json.length()).fold(emptyList()) { list, index ->
+            val obj = json.getJSONObject(index)
+            val entity: T? = getEntity(obj)
+            entity?.let { list + entity } ?: list
+        }
+
+
+    fun <T : Entity> getResultOfArray(json: JSONArray, getEntity: (obj: JSONObject) -> (Result<T>)): List<Result<T>> =
+        (0 until json.length()).fold(emptyList()) { list, index ->
+            val obj = json.getJSONObject(index)
+            val result: Result<T> = getEntity(obj)
+            return list + result
+        }
 }

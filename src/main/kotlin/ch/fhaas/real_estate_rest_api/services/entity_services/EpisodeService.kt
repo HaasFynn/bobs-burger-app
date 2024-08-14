@@ -14,24 +14,23 @@ class EpisodeService(
     requestClient: RequestClient,
 ) : EntityService<Episode>(jsonReader, resultHandler, requestClient, "episode", jsonReader::getEpisode) {
 
-    fun getByProductionCode(productionCode: String): Episode? {
-        return get("${BASE_URL}${urlPath}?productionCode=$productionCode")
-    }
+    fun getByProductionCode(productionCode: String): Episode? =
+        get("?productionCode=$productionCode")
+
 
     fun getByAirDate(date: String, amount: Int = 0): List<Episode> =
-        getAmount("${BASE_URL}${urlPath}?airDate=$date", amount)
+        getAmount("?airDate=$date", amount)
 
     fun getBySeason(season: Season, amount: Int = 0): List<Episode> =
-        getAmount("${BASE_URL}${urlPath}?season=${season.seasonNum}", amount)
+        getAmount("?season=${season.seasonNum}", amount)
 
     fun getBySeason(season: Int, amount: Int = 0): List<Episode> =
-        getAmount("${BASE_URL}${urlPath}?season=$season", amount)
+        getAmount("?season=$season", amount)
 
     fun getByIndex(num: Int): Episode? =
-        get("${BASE_URL}${urlPath}?num=$num")
-
+        get("?num=$num")
 
     fun getByTotalViewers(totalViewers: Int, amount: Int = 0): List<Episode> =
-        getAmount("${BASE_URL}${urlPath}?totalViewers=$totalViewers", amount)
+        getAmount("?totalViewers=$totalViewers", amount)
 
 }

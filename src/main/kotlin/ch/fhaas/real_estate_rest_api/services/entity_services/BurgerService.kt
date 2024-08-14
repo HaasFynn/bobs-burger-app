@@ -16,20 +16,20 @@ class BurgerService(
 ) : EntityService<Burger>(jsonReader, resultHandler, requestClient, "burger", jsonReader::getBurger) {
 
     fun getByName(name: String): Burger? =
-        get("${BASE_URL}${urlPath}?name=$name")
+        get("?name=$name")
 
     fun getByPrice(price: Double, amount: Int = 0): List<Burger> =
-        getAmount("${BASE_URL}${urlPath}?price=$price", amount)
+        getAmount("?price=$price", amount)
 
     fun getBySeason(season: Season, amount: Int): List<Burger> =
-        getAmount("${BASE_URL}${urlPath}?season=${season.seasonNum}", amount)
+        getAmount("?season=${season.seasonNum}", amount)
 
     fun getBySeason(season: Int, amount: Int): List<Burger> =
-        getAmount("${BASE_URL}${urlPath}?season=${season}", amount)
+        getAmount("?season=${season}", amount)
 
     fun getByEpisode(episode: Episode): Burger? =
-        get("${BASE_URL}${urlPath}?episode=${episode.episodeNum}")
+        get("?episode=${episode.episodeNum}")
 
     fun getByEpisode(episode: Int): Burger? =
-        get("${BASE_URL}${urlPath}?episode=${episode}")
+        get("?episode=${episode}")
 }

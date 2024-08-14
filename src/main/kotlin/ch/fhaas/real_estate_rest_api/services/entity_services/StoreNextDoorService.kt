@@ -16,18 +16,18 @@ class StoreNextDoorService(
 ): EntityService<StoreNextDoor>(jsonReader, resultHandler, requestClient, "storeNextDoor", jsonReader::getStoreNextDoor) {
 
     fun getByName(name: String): StoreNextDoor? =
-        get("$BASE_URL$urlPath?name=$name")
+        get("?name=$name")
 
     fun getBySeason(season: Season, amount: Int = 0): List<StoreNextDoor> =
-        getAmount("${BASE_URL}${urlPath}?season=${season.seasonNum}", amount)
+        getAmount("?season=${season.seasonNum}", amount)
 
     fun getBySeason(season: Int, amount: Int = 0): List<StoreNextDoor> =
-        getAmount("${BASE_URL}${urlPath}?season=$season", amount)
+        getAmount("?season=$season", amount)
 
     fun getByEpisode(episode: Episode): StoreNextDoor? =
-        get("${BASE_URL}${urlPath}?episode=${episode.episodeNum}")
+        get("?episode=${episode.episodeNum}")
 
     fun getByEpisode(episode: Int): StoreNextDoor? =
-        get("${BASE_URL}${urlPath}?episode=${episode}")
+        get("?episode=${episode}")
 
 }
