@@ -19,6 +19,9 @@ class PestControlTruckService(
         get("$BASE_URL$urlPath?name=$name")
 
     fun getBySeason(season: Season, amount: Int = 0): List<PestControlTruck> =
+        getAmount("${BASE_URL}${urlPath}?season=${season.seasonNum}", amount)
+
+    fun getBySeason(season: Int, amount: Int = 0): List<PestControlTruck> =
         getAmount("${BASE_URL}${urlPath}?season=$season", amount)
 
     fun getByEpisode(episode: Episode): PestControlTruck? =
