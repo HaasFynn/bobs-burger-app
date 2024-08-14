@@ -64,7 +64,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
 
     fun getSeason(json: JSONObject): Result<Season> = getResultOfEntity(
         Season(
-            seasonNumber = json.getInt("season"), episodes = emptyList() //TODO: Get all Episodes of season
+            seasonNum = json.getInt("season"), episodes = emptyList() //TODO: Get all Episodes of season
         )
     )
 
@@ -95,4 +95,8 @@ class JsonReader(private val resultHandler: ResultHandler) {
             val result: Result<T> = getEntity(obj)
             return list + result
         }
+
+    fun getResultOfBurger(jsonObject: JSONObject): Result<Burger> {
+        TODO("Not yet implemented")
+    }
 }

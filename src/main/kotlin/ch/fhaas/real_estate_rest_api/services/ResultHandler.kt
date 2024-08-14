@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class ResultHandler {
 
-    fun <T : Entity> getEntityOfResult(result: Result<T>): T? {
+    fun <T> getEntityOfResult(result: Result<T>): T? {
         result.onSuccess {
             result.getOrNull()
         }.onFailure {

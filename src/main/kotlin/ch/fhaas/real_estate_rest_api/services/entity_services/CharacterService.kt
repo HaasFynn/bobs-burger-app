@@ -1,83 +1,58 @@
 package ch.fhaas.real_estate_rest_api.services.entity_services
 
+import ch.fhaas.real_estate_rest_api.entity.Character
+import ch.fhaas.real_estate_rest_api.entity.VoiceActor
 import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
 import ch.fhaas.real_estate_rest_api.services.ResultHandler
-import ch.fhaas.real_estate_rest_api.entity.Character
-import ch.fhaas.real_estate_rest_api.entity.VoiceActor
 import org.json.JSONArray
 import org.springframework.stereotype.Service
 
 @Service
 class CharacterService(
-    private val requestClient: RequestClient,
-    private val jsonReader: JsonReader,
-    private val resultHandler: ResultHandler
-) : EntityService<Character> {
+    jsonReader: JsonReader, resultHandler: ResultHandler, requestClient: RequestClient
+) : EntityService<Character>(jsonReader, resultHandler, requestClient, "character", jsonReader::getCharacter) {
 
-    private val ending = "character"
-
-    override fun get(amount: Int): List<Character> {
-        var url: String = BASE_URL + ending
-        if (amount > 0) url += "?limit=$amount"
-        val json: JSONArray = request(url)
-        return getListOfCharacters(json)
-    }
-
-    override fun getAll(): List<Character> {
-        val url: String = BASE_URL + ending
-        val json: JSONArray = request(url)
-        return getListOfCharacters(json)
-    }
-
-    override fun getByName(name: String): Character? {
-        val url = "$BASE_URL$ending?name=$name"
+    fun getByName(name: String): Character? {
+        val url = "${BASE_URL}${urlPath}?name=$name"
         val json: JSONArray = request(url)
         val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(0))
         return resultHandler.getEntityOfResult(result)
     }
 
     fun getByGender(gender: String, amount: Int = 0): List<Character> {
-        var url = "$BASE_URL$ending?gender=$gender"
+        var url = "${BASE_URL}${urlPath}?gender=$gender"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
-        return getListOfCharacters(json)
+        return getListOfEntity(json, getAction = getAction)
     }
 
     fun getByAge(age: Int, amount: Int = 0): List<Character> {
-        var url = "$BASE_URL$ending?age=$age"
+        var url = "${BASE_URL}${urlPath}?age=$age"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
-        return getListOfCharacters(json)
+        return getListOfEntity(json, getAction = getAction)
     }
 
     fun getByHair(hair: String, amount: Int = 0): List<Character> {
-        var url = "$BASE_URL$ending?hair=$hair"
+        var url = "${BASE_URL}${urlPath}?hair=$hair"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
-        return getListOfCharacters(json)
+        return getListOfEntity(json, getAction = getAction)
     }
 
     fun getByOccupation(occupation: String, amount: Int = 0): List<Character> {
-        var url = "$BASE_URL$ending?occupation=$occupation"
+        var url = "${BASE_URL}${urlPath}?occupation=$occupation"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
-        return getListOfCharacters(json)
+        return getListOfEntity(json, getAction = getAction)
     }
 
     fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> {
-        var url = "$BASE_URL$ending?voicedBy=${voiceActor.name}"
+        var url = "${BASE_URL}${urlPath}?voicedBy=${voiceActor.name}"
         if (amount > 0) url += "&limit=$amount"
         val json: JSONArray = request(url)
-        return getListOfCharacters(json)
+        return getListOfEntity(json, getAction = getAction)
     }
 
-    private fun getListOfCharacters(json: JSONArray): List<Character> =
-        (0 until json.length()).fold(emptyList()) { list, index ->
-            val result: Result<Character> = jsonReader.getCharacter(json.getJSONObject(index))
-            val entity: Character? = resultHandler.getEntityOfResult(result)
-            entity?.let { list + it } ?: list
-        }
-
-    private fun request(url: String) = requestClient.request(url)
 }
