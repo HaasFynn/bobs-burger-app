@@ -14,12 +14,12 @@ class BurgerService(
     jsonReader: JsonReader,
     resultHandler: ResultHandler,
     requestClient: RequestClient
-) : EntityService<Burger>(jsonReader, resultHandler, requestClient, "burger", jsonReader::getResultOfBurger) {
+) : EntityService<Burger>(jsonReader, resultHandler, requestClient, "burger", jsonReader::getBurger) {
 
     fun getByName(name: String): Burger? {
         val url = "${BASE_URL}${urlPath}?name=$name"
         val json: JSONArray = request(url)
-        return jsonReader.getResultOfBurger(json.getJSONObject(0))
+        return jsonReader.getBurger(json.getJSONObject(0))
     }
 
     fun getByPrice(price: Double): List<Burger> {
