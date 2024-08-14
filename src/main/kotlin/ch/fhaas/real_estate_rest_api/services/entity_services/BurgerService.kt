@@ -24,6 +24,12 @@ class BurgerService(
     fun getBySeason(season: Season, amount: Int): List<Burger> =
         getAmount("${BASE_URL}${urlPath}?season=${season.seasonNum}", amount)
 
+    fun getBySeason(season: Int, amount: Int): List<Burger> =
+        getAmount("${BASE_URL}${urlPath}?season=${season}", amount)
+
     fun getByEpisode(episode: Episode): Burger? =
         get("${BASE_URL}${urlPath}?episode=${episode.episodeNum}")
+
+    fun getByEpisode(episode: Int): Burger? =
+        get("${BASE_URL}${urlPath}?episode=${episode}")
 }

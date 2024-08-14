@@ -27,7 +27,6 @@ class CharacterService(
     fun getByOccupation(occupation: String, amount: Int = 0): List<Character> =
         getAmount("${BASE_URL}${urlPath}?occupation=$occupation", amount)
 
-
     fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> =
         getAmount("${BASE_URL}${urlPath}?voicedBy=${voiceActor.name}", amount)
 
