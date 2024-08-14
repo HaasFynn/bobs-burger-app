@@ -11,17 +11,27 @@ import kotlin.reflect.KFunction1
 abstract class EntityService<T : Entity>(
     protected val jsonReader: JsonReader,
     protected val resultHandler: ResultHandler,
-    private val requestClient: RequestClient
+    private val requestClient: RequestClient,
+    protected val urlPath: String,
+    protected val getAction: KFunction1<JSONObject, Result<T>>
 ) {
     companion object {
         @JvmStatic
         protected val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
     }
 
-    protected abstract val getAction: KFunction1<JSONObject, Result<T>>
+    fun get(amount: Int): List<T> {
+        var url: String = BASE_URL + urlPath
+        if (amount > 0) url += "?limit=$amount"
+        val json: JSONArray = request(url)
+        return getListOfEntity(json, getAction = getAction)
+    }
 
-    abstract fun get(amount: Int): List<T>
-    abstract fun getAll(): List<T>
+    fun getAll(): List<T> {
+        val url: String = BASE_URL + urlPath
+        val json: JSONArray = request(url)
+        return getListOfEntity(json, getAction = getAction)
+    }
 
     protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> Result<T>): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
