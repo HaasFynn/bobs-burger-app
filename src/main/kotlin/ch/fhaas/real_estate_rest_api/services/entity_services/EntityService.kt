@@ -20,25 +20,31 @@ abstract class EntityService<T : Entity>(
         protected val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
     }
 
-    fun get(amount: Int): List<T> {
-        var url: String = BASE_URL + urlPath
-        if (amount > 0) url += "?limit=$amount"
+    fun get(amount: Int): List<T> =
+        getAmount(BASE_URL + urlPath, amount)
+
+    fun getAll(): List<T> =
+        getAmount(BASE_URL + urlPath, 0)
+
+
+    protected fun get(url: String): T? {
+        val json: JSONArray = request(url)
+        return getAction(json.getJSONObject(0))
+    }
+
+    protected fun getAmount(url: String, amount: Int): List<T> {
+        var varUrl: String = url
+        if (amount > 0) varUrl += "&amount=$amount"
         val json: JSONArray = request(url)
         return getListOfEntity(json, getAction = getAction)
     }
 
-    fun getAll(): List<T> {
-        val url: String = BASE_URL + urlPath
-        val json: JSONArray = request(url)
-        return getListOfEntity(json, getAction = getAction)
-    }
-
-    protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> T?): List<T> =
+    private fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> T?): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val entity: T? = getAction(json.getJSONObject(index))
             entity?.let { list + it } ?: list
         }
 
-    protected fun request(url: String) = requestClient.request(url)
+    private fun request(url: String) = requestClient.request(url)
 
 }
