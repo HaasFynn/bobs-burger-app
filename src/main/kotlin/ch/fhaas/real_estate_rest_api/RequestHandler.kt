@@ -85,4 +85,25 @@ class RequestHandler(private val characterService: CharacterService) {
     ): Episode {
         TODO("Implement me")
     }
+
+    @GetMapping(
+        "/episodes",
+        produces = ["application/json"]
+    )
+    @ResponseBody
+    private fun getBurgers(
+        @RequestParam(name = "amount", required = false)
+        amount: Int,
+        @RequestParam(name = "name", required = false)
+        name: String,
+        @RequestParam(name = "price", required = false)
+        price: Double,
+        @RequestParam(name = "season", required = false)
+        season: Int,
+        @RequestParam(name = "episode", required = false)
+        episode: Int
+    ) {
+        TODO("Implement me")
+    }
+
 }
