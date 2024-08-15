@@ -1,8 +1,8 @@
 package ch.fhaas.real_estate_rest_api.services
 
 import ch.fhaas.real_estate_rest_api.entity.*
-import org.json.JSONArray
-import org.json.JSONObject
+import kong.unirest.core.json.JSONArray
+import kong.unirest.core.json.JSONObject
 import org.springframework.stereotype.Service
 
 
