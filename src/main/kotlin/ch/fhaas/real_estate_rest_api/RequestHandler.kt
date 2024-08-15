@@ -67,7 +67,7 @@ class RequestHandler(private val characterService: CharacterService) {
         produces = ["application/json"]
     )
     @ResponseBody
-    private fun getEpisodes(
+    private fun getEpisode(
         @RequestParam(name = "amount", required = false)
         amount: Int,
         @RequestParam(name = "name", required = false)
@@ -81,7 +81,7 @@ class RequestHandler(private val characterService: CharacterService) {
         @RequestParam(name = "episodeNum", required = false)
         episode: Int,
         @RequestParam(name = "totalViewer", required = false)
-        occupation: String,
+        occupation: String
     ): Episode {
         TODO("Implement me")
     }
