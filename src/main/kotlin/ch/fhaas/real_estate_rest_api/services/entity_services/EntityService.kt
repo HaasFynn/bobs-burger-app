@@ -4,8 +4,8 @@ import ch.fhaas.real_estate_rest_api.entity.Entity
 import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
 import ch.fhaas.real_estate_rest_api.services.ResultHandler
-import org.json.JSONArray
-import org.json.JSONObject
+import kong.unirest.core.json.JSONArray
+import kong.unirest.core.json.JSONObject
 import kotlin.reflect.KFunction1
 
 abstract class EntityService<T : Entity>(

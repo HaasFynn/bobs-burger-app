@@ -1,8 +1,8 @@
 package ch.fhaas.real_estate_rest_api.services
 
-import com.mashape.unirest.http.Unirest
-import com.mashape.unirest.http.exceptions.UnirestException
-import org.json.JSONArray
+import kong.unirest.core.Unirest
+import kong.unirest.core.UnirestException
+import kong.unirest.core.json.JSONArray
 import org.springframework.stereotype.Service
 
 @Service

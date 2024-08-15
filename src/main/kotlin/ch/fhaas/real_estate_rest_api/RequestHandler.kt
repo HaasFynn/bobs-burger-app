@@ -2,13 +2,12 @@ package ch.fhaas.real_estate_rest_api
 
 import ch.fhaas.real_estate_rest_api.entity.Character
 import ch.fhaas.real_estate_rest_api.entity.Episode
-import ch.fhaas.real_estate_rest_api.services.entity_services.CharacterService
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.web.bind.annotation.*
 
 @RestController("/")
 @ComponentScan
-class RequestHandler(private val characterService: CharacterService) {
+class RequestHandler {
 
 
     //TODO: LATER APPROACH: Implement Requester.kt to Request Data from other API's and convert Data to own format. Add @Service Annotation
@@ -26,11 +25,11 @@ class RequestHandler(private val characterService: CharacterService) {
             |<h1>Bob's Burger App</h1>
             |Possible Requests:
             |<ul>
-            |<li><u href="$url characters">Characters</u></li>
-            |<li><u href="{$url} episodes>Episodes</u></li>
-            |<li><u href="{$url} burgers>Burgers</u></li>
-            |<li><u href="{$url} storeNextDoor>StoreNextDoor</u></li>
-            |<li><u href="{$url} pestControlTruck>PestControlTruck</u></li>
+            |<li><a href="${url}characters">Characters</a></li>
+            |<li><a href="${url}episodes>Episodes</a></li>
+            |<li><a href="${url}burgers>Burgers</a></li>
+            |<li><a href="${url}storeNextDoor>StoreNextDoor</a></li>
+            |<li><a href="${url}pestControlTruck>PestControlTruck</a></li>
             |</ul>
         """.trimMargin()
     }
