@@ -14,7 +14,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 name = json.getString("name"),
                 wikiUrl = json.getString("wikiUrl"),
                 relatives = getListOf(json.getJSONArray("relatives"), this::getRelative),
-                imageUrl = json.getString("imageUrl"),
+                imageUrl = json.getString("url"),
                 gender = json.getString("gender"),
                 age = json.getInt("age"),
                 hair = json.getString("hair"),
@@ -35,6 +35,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 wikiUrl = json.getString("wikiUrl"),
                 productionCode = json.getString("productionCode"),
                 airDate = json.getString("airDate"),
+                season = getSeason(json.getJSONObject("season")),
                 episodeNum = json.getInt("episode"),
                 totalViewers = json.getInt("totalViewers")
             )
@@ -42,7 +43,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
 
     fun getSeason(json: JSONObject): Season? =
         Season(
-            seasonNum = json.getInt("season"), episodes = emptyList() //TODO: Get all Episodes of season
+            seasonNum = json.getInt("season")
         )
 
 
@@ -60,17 +61,44 @@ class JsonReader(private val resultHandler: ResultHandler) {
             )
 
 
+    fun getBurger(json: JSONObject): Burger? =
+        Burger(
+            name = json.getString("name"),
+            wikiUrl = json.getString("wikiUrl"),
+            price = json.getDouble("price"),
+            season = getSeason(json.getJSONObject("season")),
+            episode = getEpisode(json.getJSONObject("episode"))
+        )
+
+    fun getPestControlTruck(json: JSONObject): PestControlTruck? =
+        PestControlTruck(
+            name = json.getString("name"),
+            wikiUrl = json.getString("wikiUrl"),
+            season = getSeason(json.getJSONObject("season")),
+            episode = getEpisode(json.getJSONObject("episode")),
+            imageUrl = json.getString("url")
+        )
+
+    fun getStoreNextDoor(json: JSONObject): StoreNextDoor? =
+        StoreNextDoor(
+            name = json.getString("name"),
+            wikiUrl = json.getString("wikiUrl"),
+            firstSeason = getSeason(json.getJSONObject("season")),
+            firstEpisode = getEpisode(json.getJSONObject("episode")),
+            imageUrl = json.getString("url")
+        )
+
     fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
         Result.success(entity)
     } catch (e: NullPointerException) {
         Result.failure(e)
-        }
+    }
 
-    fun <T : Entity> getListOf(json: JSONArray, getEntity: (obj: JSONObject) -> (T?)): List<T?> =
+    fun <T : Entity> getListOf(json: JSONArray, getEntity: (obj: JSONObject) -> (T?)): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val obj = json.getJSONObject(index)
-            val result: T? = getEntity(obj)
-            return list + result
+            val entity: T? = getEntity(obj)
+            entity?.let { list + entity } ?: list
         }
 
 
@@ -80,8 +108,4 @@ class JsonReader(private val resultHandler: ResultHandler) {
             val result: Result<T> = getEntity(obj)
             return list + result
         }
-
-    fun getResultOfBurger(jsonObject: JSONObject): Burger? {
-        TODO("Not yet implemented")
-    }
 }

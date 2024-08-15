@@ -12,33 +12,42 @@ abstract class EntityService<T : Entity>(
     protected val jsonReader: JsonReader,
     protected val resultHandler: ResultHandler,
     private val requestClient: RequestClient,
-    protected val urlPath: String,
+    private val urlPath: String,
     protected val getAction: KFunction1<JSONObject, T?>
 ) {
     companion object {
         @JvmStatic
-        protected val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
+        private val BASE_URL: String = "https://bobsburgers-api.herokuapp.com/"
     }
 
-    fun get(amount: Int): List<T> {
-        var url: String = BASE_URL + urlPath
-        if (amount > 0) url += "?limit=$amount"
+    fun get(amount: Int): List<T> =
+        getAmount(buildUrl(), amount)
+
+    fun getAll(): List<T> =
+        getAmount(buildUrl(), 0)
+
+
+    protected fun get(url: String): T? {
         val json: JSONArray = request(url)
-        return getListOfEntity(json, getAction = getAction)
+        return getAction(json.getJSONObject(0))
     }
 
-    fun getAll(): List<T> {
-        val url: String = BASE_URL + urlPath
+    protected fun getAmount(urlExtra: String, amount: Int): List<T> {
+        val url: String = buildUrl(amount, urlExtra)
         val json: JSONArray = request(url)
-        return getListOfEntity(json, getAction = getAction)
+        return getListOfEntities(json)
     }
 
-    protected fun <T> getListOfEntity(json: JSONArray, getAction: (json: JSONObject) -> T?): List<T> =
+    private fun getListOfEntities(json: JSONArray): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val entity: T? = getAction(json.getJSONObject(index))
             entity?.let { list + it } ?: list
         }
 
-    protected fun request(url: String) = requestClient.request(url)
+    private fun request(url: String) = requestClient.request(url)
+
+    private fun buildUrl(amount: Int = 0, vararg extras: String): String {
+        return BASE_URL + urlPath + extras + if (amount > 0) "?amount=$amount" else ""
+    }
 
 }

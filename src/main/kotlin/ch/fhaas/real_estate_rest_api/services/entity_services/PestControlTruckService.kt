@@ -1,7 +1,7 @@
 package ch.fhaas.real_estate_rest_api.services.entity_services
 
-import ch.fhaas.real_estate_rest_api.entity.Burger
 import ch.fhaas.real_estate_rest_api.entity.Episode
+import ch.fhaas.real_estate_rest_api.entity.PestControlTruck
 import ch.fhaas.real_estate_rest_api.entity.Season
 import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
@@ -9,27 +9,26 @@ import ch.fhaas.real_estate_rest_api.services.ResultHandler
 import org.springframework.stereotype.Service
 
 @Service
-class BurgerService(
+class PestControlTruckService(
     jsonReader: JsonReader,
     resultHandler: ResultHandler,
-    requestClient: RequestClient
-) : EntityService<Burger>(jsonReader, resultHandler, requestClient, "burger", jsonReader::getBurger) {
+    requestClient: RequestClient,
+): EntityService<PestControlTruck>(jsonReader, resultHandler, requestClient, "pestControlTruck", jsonReader::getPestControlTruck) {
 
-    fun getByName(name: String): Burger? =
+    fun getByName(name: String): PestControlTruck? =
         get("?name=$name")
 
-    fun getByPrice(price: Double, amount: Int = 0): List<Burger> =
-        getAmount("?price=$price", amount)
-
-    fun getBySeason(season: Season, amount: Int): List<Burger> =
+    fun getBySeason(season: Season, amount: Int = 0): List<PestControlTruck> =
         getAmount("?season=${season.seasonNum}", amount)
 
-    fun getBySeason(season: Int, amount: Int): List<Burger> =
-        getAmount("?season=${season}", amount)
+    fun getBySeason(season: Int, amount: Int = 0): List<PestControlTruck> =
+        getAmount("?season=$season", amount)
 
-    fun getByEpisode(episode: Episode): Burger? =
+    fun getByEpisode(episode: Episode): PestControlTruck? =
         get("?episode=${episode.episodeNum}")
 
-    fun getByEpisode(episode: Int): Burger? =
+    fun getByEpisode(episode: Int): PestControlTruck? =
         get("?episode=${episode}")
+
+
 }
