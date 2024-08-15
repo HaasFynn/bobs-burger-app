@@ -76,10 +76,10 @@ class RequestHandler(private val characterService: CharacterService) {
         productionCode: String,
         @RequestParam(name = "airDate", required = false)
         airDate: String,
-        @RequestParam(name = "season", required = false)
-        season: Int,
-        @RequestParam(name = "episodeNum", required = false)
-        episode: Int,
+        @RequestParam(name = "seasonNum", required = false)
+        seasonNum: Int,
+        @RequestParam(name = "episode", required = false)
+        episodeNum: Int,
         @RequestParam(name = "totalViewer", required = false)
         occupation: String
     ): Episode {
@@ -98,12 +98,32 @@ class RequestHandler(private val characterService: CharacterService) {
         name: String,
         @RequestParam(name = "price", required = false)
         price: Double,
-        @RequestParam(name = "season", required = false)
-        season: Int,
+        @RequestParam(name = "seasonNum", required = false)
+        seasonNum: Int,
         @RequestParam(name = "episode", required = false)
-        episode: Int
+        episodeNum: Int
     ) {
         TODO("Implement me")
     }
+
+
+    @GetMapping(
+        "/episodes",
+        produces = ["application/json"]
+    )
+    @ResponseBody
+    private fun getStoreNextDoor(
+        @RequestParam(name = "amount", required = false)
+        amount: Int,
+        @RequestParam(name = "name", required = false)
+        name: String,
+        @RequestParam(name = "seasonNum", required = false)
+        seasonNum: Int,
+        @RequestParam(name = "episode", required = false)
+        episodeNum: Int
+    ) {
+        TODO("Implement me")
+    }
+
 
 }
