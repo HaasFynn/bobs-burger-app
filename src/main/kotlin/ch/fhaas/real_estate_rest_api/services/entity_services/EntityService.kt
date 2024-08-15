@@ -35,10 +35,10 @@ abstract class EntityService<T : Entity>(
     protected fun getAmount(urlExtra: String, amount: Int): List<T> {
         val url: String = buildUrl(amount, urlExtra)
         val json: JSONArray = request(url)
-        return getListOfEntity(json)
+        return getListOfEntities(json)
     }
 
-    private fun getListOfEntity(json: JSONArray): List<T> =
+    private fun getListOfEntities(json: JSONArray): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
             val entity: T? = getAction(json.getJSONObject(index))
             entity?.let { list + it } ?: list
