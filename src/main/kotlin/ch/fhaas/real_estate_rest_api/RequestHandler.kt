@@ -21,10 +21,17 @@ class RequestHandler(private val characterService: CharacterService) {
     @RequestMapping("/")
     @ResponseBody
     private fun main(): Any {
+        val url: String = "http://localhost8080/"
         return """
             |<h1>Bob's Burger App</h1>
-            |<p>To be continued...</p>
-            |
+            |Possible Requests:
+            |<ul>
+            |<li><u href="$url characters">Characters</u></li>
+            |<li><u href="{$url} episodes>Episodes</u></li>
+            |<li><u href="{$url} burgers>Burgers</u></li>
+            |<li><u href="{$url} storeNextDoor>StoreNextDoor</u></li>
+            |<li><u href="{$url} pestControlTruck>PestControlTruck</u></li>
+            |</ul>
         """.trimMargin()
     }
 
@@ -87,7 +94,7 @@ class RequestHandler(private val characterService: CharacterService) {
     }
 
     @GetMapping(
-        "/episodes",
+        "/burgers",
         produces = ["application/json"]
     )
     @ResponseBody
@@ -108,7 +115,7 @@ class RequestHandler(private val characterService: CharacterService) {
 
 
     @GetMapping(
-        "/episodes",
+        "/storeNextDoor",
         produces = ["application/json"]
     )
     @ResponseBody
@@ -125,5 +132,21 @@ class RequestHandler(private val characterService: CharacterService) {
         TODO("Implement me")
     }
 
-
+    @GetMapping(
+        "/pestControlTruck",
+        produces = ["application/json"]
+    )
+    @ResponseBody
+    private fun getPestControlTruck(
+        @RequestParam(name = "amount", required = false)
+        amount: Int,
+        @RequestParam(name = "name", required = false)
+        name: String,
+        @RequestParam(name = "seasonNum", required = false)
+        seasonNum: Int,
+        @RequestParam(name = "episode", required = false)
+        episodeNum: Int
+    ) {
+        TODO("Implement me")
+    }
 }
