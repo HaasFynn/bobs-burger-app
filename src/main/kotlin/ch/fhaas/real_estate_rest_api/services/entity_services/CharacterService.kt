@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service
 @Service
 class CharacterService(
     jsonReader: JsonReader, resultHandler: ResultHandler, requestClient: RequestClient
-) : EntityService<Character>(jsonReader, resultHandler, requestClient, "character", jsonReader::getCharacter) {
+) : EntityService<Character>(jsonReader, resultHandler, requestClient, "characters", jsonReader::getCharacter) {
 
     fun getByName(name: String): Character? =
         get("?name=$name")
 
     fun getByGender(gender: String, amount: Int = 0): List<Character> =
-        getAmount("?gender=$gender", amount)
+        getAmount(amount, "?gender=$gender")
 
     fun getByAge(age: Int, amount: Int = 0): List<Character> =
-        getAmount("?age=$age", amount)
+        getAmount(amount, "?age=$age")
 
     fun getByHair(hair: String, amount: Int = 0): List<Character> =
-        getAmount("?hair=$hair", amount)
+        getAmount(amount, "?hair=$hair")
 
     fun getByOccupation(occupation: String, amount: Int = 0): List<Character> =
-        getAmount("?occupation=$occupation", amount)
+        getAmount(amount, "?occupation=$occupation")
 
     fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> =
-        getAmount("?voicedBy=${voiceActor.name}", amount)
+        getAmount(amount, "?voicedBy=${voiceActor.name}")
 
 }

@@ -1,13 +1,19 @@
 package ch.fhaas.real_estate_rest_api
 
-import ch.fhaas.real_estate_rest_api.entity.Character
-import ch.fhaas.real_estate_rest_api.entity.Episode
+import ch.fhaas.real_estate_rest_api.entity.*
+import ch.fhaas.real_estate_rest_api.services.entity_services.BurgerService
+import ch.fhaas.real_estate_rest_api.services.entity_services.CharacterService
+import ch.fhaas.real_estate_rest_api.services.entity_services.EpisodeService
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.web.bind.annotation.*
 
 @RestController("/")
 @ComponentScan
-class RequestHandler {
+class RequestHandler(
+    private val characterService: CharacterService,
+    private val episodeService: EpisodeService,
+    private val burgerService: BurgerService
+) {
 
 
     //TODO: LATER APPROACH: Implement Requester.kt to Request Data from other API's and convert Data to own format. Add @Service Annotation
@@ -37,7 +43,7 @@ class RequestHandler {
     @GetMapping("/test")
     @ResponseBody
     private fun helloWorld(): Any {
-        return "<h1>Test Succeeded</h1>"
+        return "<h1>Test Failed. Pls contact support!</h1>"
     }
 
     @GetMapping(
@@ -46,27 +52,26 @@ class RequestHandler {
     )
     @ResponseBody
     private fun getCharacter(
-        @RequestParam(name = "amount", required = false)
+        @RequestParam(name = "amount", defaultValue = "0", required = false)
         amount: Int,
-        @RequestParam(name = "name", required = false)
+        @RequestParam(name = "name", defaultValue = "", required = false)
         name: String,
-        @RequestParam(name = "gender", required = false)
+        @RequestParam(name = "gender", defaultValue = "", required = false)
         gender: String,
-        @RequestParam(name = "age", required = false)
+        @RequestParam(name = "age", defaultValue = "0", required = false)
         age: Int,
-        @RequestParam(name = "hair", required = false)
+        @RequestParam(name = "hair", defaultValue = "", required = false)
         hair: String,
-        @RequestParam(name = "currentOccupation", required = false)
+        @RequestParam(name = "currentOccupation", defaultValue = "", required = false)
         currentOccupation: String,
-        @RequestParam(name = "occupation", required = false)
+        @RequestParam(name = "occupation", defaultValue = "", required = false)
         occupation: String,
-        @RequestParam(name = "episode", required = false)
+        @RequestParam(name = "episode", defaultValue = "0", required = false)
         episode: Int,
-        @RequestParam(name = "voiceActor", required = false)
+        @RequestParam(name = "voiceActor", defaultValue = "", required = false)
         voiceActor: String
-    ): Character {
-        TODO("Implement me")
-    }
+    ): List<Character> = characterService.getAll()
+
 
     @GetMapping(
         "/episodes",
@@ -74,23 +79,22 @@ class RequestHandler {
     )
     @ResponseBody
     private fun getEpisode(
-        @RequestParam(name = "amount", required = false)
+        @RequestParam(name = "amount", defaultValue = "0", required = false)
         amount: Int,
-        @RequestParam(name = "name", required = false)
+        @RequestParam(name = "name", defaultValue = "", required = false)
         name: String,
-        @RequestParam(name = "productionCode", required = false)
+        @RequestParam(name = "productionCode", defaultValue = "", required = false)
         productionCode: String,
-        @RequestParam(name = "airDate", required = false)
+        @RequestParam(name = "airDate", defaultValue = "", required = false)
         airDate: String,
-        @RequestParam(name = "seasonNum", required = false)
+        @RequestParam(name = "seasonNum", defaultValue = "0", required = false)
         seasonNum: Int,
-        @RequestParam(name = "episode", required = false)
+        @RequestParam(name = "episode", defaultValue = "0", required = false)
         episodeNum: Int,
-        @RequestParam(name = "totalViewer", required = false)
+        @RequestParam(name = "totalViewer", defaultValue = "", required = false)
         occupation: String
-    ): Episode {
-        TODO("Implement me")
-    }
+    ): List<Episode> = episodeService.getAll()
+
 
     @GetMapping(
         "/burgers",
@@ -98,20 +102,17 @@ class RequestHandler {
     )
     @ResponseBody
     private fun getBurgers(
-        @RequestParam(name = "amount", required = false)
+        @RequestParam(name = "amount", defaultValue = "0", required = false)
         amount: Int,
-        @RequestParam(name = "name", required = false)
+        @RequestParam(name = "name", defaultValue = "", required = false)
         name: String,
-        @RequestParam(name = "price", required = false)
+        @RequestParam(name = "price", defaultValue = "0", required = false)
         price: Double,
-        @RequestParam(name = "seasonNum", required = false)
+        @RequestParam(name = "seasonNum", defaultValue = "0", required = false)
         seasonNum: Int,
-        @RequestParam(name = "episode", required = false)
+        @RequestParam(name = "episode", defaultValue = "0", required = false)
         episodeNum: Int
-    ) {
-        TODO("Implement me")
-    }
-
+    ): List<Burger> = burgerService.getAll()
 
     @GetMapping(
         "/storeNextDoor",
@@ -127,7 +128,7 @@ class RequestHandler {
         seasonNum: Int,
         @RequestParam(name = "episode", required = false)
         episodeNum: Int
-    ) {
+    ): List<StoreNextDoor> {
         TODO("Implement me")
     }
 
@@ -145,7 +146,7 @@ class RequestHandler {
         seasonNum: Int,
         @RequestParam(name = "episode", required = false)
         episodeNum: Int
-    ) {
+    ): List<PestControlTruck> {
         TODO("Implement me")
     }
 }

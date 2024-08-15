@@ -19,10 +19,10 @@ class StoreNextDoorService(
         get("?name=$name")
 
     fun getBySeason(season: Season, amount: Int = 0): List<StoreNextDoor> =
-        getAmount("?season=${season.seasonNum}", amount)
+        getAmount(amount, "?season=${season.seasonNum}")
 
     fun getBySeason(season: Int, amount: Int = 0): List<StoreNextDoor> =
-        getAmount("?season=$season", amount)
+        getAmount(amount, "?season=$season")
 
     fun getByEpisode(episode: Episode): StoreNextDoor? =
         get("?episode=${episode.episodeNum}")

@@ -21,10 +21,10 @@ abstract class EntityService<T : Entity>(
     }
 
     fun get(amount: Int): List<T> =
-        getAmount(buildUrl(), amount)
+        getAmount(amount)
 
     fun getAll(): List<T> =
-        getAmount(buildUrl(), 0)
+        getAmount()
 
 
     protected fun get(url: String): T? {
@@ -32,7 +32,7 @@ abstract class EntityService<T : Entity>(
         return getAction(json.getJSONObject(0))
     }
 
-    protected fun getAmount(urlExtra: String, amount: Int): List<T> {
+    protected fun getAmount(amount: Int = 0, urlExtra: String = ""): List<T> {
         val url: String = buildUrl(amount, urlExtra)
         val json: JSONArray = request(url)
         return getListOfEntities(json)
@@ -46,7 +46,7 @@ abstract class EntityService<T : Entity>(
 
     private fun request(url: String) = requestClient.request(url)
 
-    private fun buildUrl(amount: Int = 0, vararg extras: String): String {
+    private fun buildUrl(amount: Int = 0, extras: String): String {
         return BASE_URL + urlPath + extras + if (amount > 0) "?amount=$amount" else ""
     }
 

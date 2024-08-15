@@ -12,9 +12,9 @@ class JsonReader(private val resultHandler: ResultHandler) {
     fun getCharacter(json: JSONObject): Character? =
             Character(
                 name = json.getString("name"),
-                wikiUrl = json.getString("wikiUrl"),
+                wikiUrl = json.getString("url"),
                 relatives = getListOf(json.getJSONArray("relatives"), this::getRelative),
-                imageUrl = json.getString("url"),
+                imageUrl = json.getString("image"),
                 gender = json.getString("gender"),
                 age = json.getInt("age"),
                 hair = json.getString("hair"),
@@ -32,10 +32,10 @@ class JsonReader(private val resultHandler: ResultHandler) {
     fun getEpisode(json: JSONObject): Episode? =
             Episode(
                 name = json.getString("name"),
-                wikiUrl = json.getString("wikiUrl"),
+                wikiUrl = json.getString("url"),
                 productionCode = json.getString("productionCode"),
                 airDate = json.getString("airDate"),
-                season = getSeason(json.getJSONObject("season")),
+                season = getSeason(json),
                 episodeNum = json.getInt("episode"),
                 totalViewers = json.getInt("totalViewers")
             )
@@ -50,7 +50,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
     fun getRelative(json: JSONObject): Relative =
             Relative(
                 name = json.getString("name"),
-                wikiUrl = json.getString("wikiUrl"),
+                wikiUrl = json.getString("url"),
                 relation = json.getString("relationship")
             )
 
@@ -64,28 +64,32 @@ class JsonReader(private val resultHandler: ResultHandler) {
     fun getBurger(json: JSONObject): Burger? =
         Burger(
             name = json.getString("name"),
-            wikiUrl = json.getString("wikiUrl"),
-            price = json.getDouble("price"),
-            season = getSeason(json.getJSONObject("season")),
-            episode = getEpisode(json.getJSONObject("episode"))
+            wikiUrl = json.getString("url"),
+            price = getPrice(json),
+            season = getSeason(json),
+            episode = getEpisode(json)
         )
+
+    private fun getPrice(json: JSONObject): Double = json.getString("price")
+        .replace("$", "")
+        .toDouble()
 
     fun getPestControlTruck(json: JSONObject): PestControlTruck? =
         PestControlTruck(
             name = json.getString("name"),
-            wikiUrl = json.getString("wikiUrl"),
-            season = getSeason(json.getJSONObject("season")),
-            episode = getEpisode(json.getJSONObject("episode")),
-            imageUrl = json.getString("url")
+            wikiUrl = json.getString("url"),
+            season = getSeason(json),
+            episode = getEpisode(json),
+            imageUrl = json.getString("image")
         )
 
     fun getStoreNextDoor(json: JSONObject): StoreNextDoor? =
         StoreNextDoor(
             name = json.getString("name"),
-            wikiUrl = json.getString("wikiUrl"),
-            firstSeason = getSeason(json.getJSONObject("season")),
-            firstEpisode = getEpisode(json.getJSONObject("episode")),
-            imageUrl = json.getString("url")
+            wikiUrl = json.getString("url"),
+            firstSeason = getSeason(json),
+            firstEpisode = getEpisode(json),
+            imageUrl = json.getString("image")
         )
 
     fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
