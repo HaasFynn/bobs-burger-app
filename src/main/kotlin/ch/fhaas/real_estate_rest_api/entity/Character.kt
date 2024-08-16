@@ -12,4 +12,11 @@ class Character(
     val allOccupations: List<Occupation> = emptyList(),
     val firstEpisode: Episode?,
     val voicedBy: VoiceActor?,
-) : Entity(name, wikiUrl)
+) : Entity(name, wikiUrl) {
+    companion object {
+        @JvmStatic
+        val searchKeys: Array<String> = arrayOf(
+            "amount", "name", "gender", "age", "hair", "occupation", "episode", "voiceActor",
+        )
+    }
+}
