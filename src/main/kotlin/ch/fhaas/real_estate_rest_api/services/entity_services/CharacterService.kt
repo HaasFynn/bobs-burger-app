@@ -1,33 +1,29 @@
 package ch.fhaas.real_estate_rest_api.services.entity_services
 
-import ch.fhaas.real_estate_rest_api.entity.Character
 import ch.fhaas.real_estate_rest_api.entity.VoiceActor
-import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
-import ch.fhaas.real_estate_rest_api.services.ResultHandler
+import kong.unirest.core.json.JSONArray
+import kong.unirest.core.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Service
-class CharacterService(
-    jsonReader: JsonReader, resultHandler: ResultHandler, requestClient: RequestClient
-) : EntityService<Character>(jsonReader, resultHandler, requestClient, "character", jsonReader::getCharacter) {
+class CharacterService(requestClient: RequestClient) : EntityService(requestClient, "/character") {
 
-    fun getByName(name: String): Character? =
-        get("?name=$name")
+    fun getByName(name: String): JSONObject =
+        get("?name=$name", 0).getJSONObject(0)
 
-    fun getByGender(gender: String, amount: Int = 0): List<Character> =
-        getAmount("?gender=$gender", amount)
+    fun getByGender(gender: String, amount: Int = 0): JSONArray =
+        get("?gender=$gender", amount)
 
-    fun getByAge(age: Int, amount: Int = 0): List<Character> =
-        getAmount("?age=$age", amount)
+    fun getByAge(age: Int, amount: Int = 0): JSONArray =
+        get("?age=$age", amount)
 
-    fun getByHair(hair: String, amount: Int = 0): List<Character> =
-        getAmount("?hair=$hair", amount)
+    fun getByHair(hair: String, amount: Int = 0): JSONArray =
+        get("?hair=$hair", amount)
 
-    fun getByOccupation(occupation: String, amount: Int = 0): List<Character> =
-        getAmount("?occupation=$occupation", amount)
+    fun getByOccupation(occupation: String, amount: Int = 0): JSONArray =
+        get("?occupation=$occupation", amount)
 
-    fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): List<Character> =
-        getAmount("?voicedBy=${voiceActor.name}", amount)
-
+    fun getByVoiceActor(voiceActor: VoiceActor, amount: Int = 0): JSONArray =
+        get("?voicedBy=${voiceActor.name}", amount)
 }

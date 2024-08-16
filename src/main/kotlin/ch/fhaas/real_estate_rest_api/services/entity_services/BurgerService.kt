@@ -1,35 +1,32 @@
 package ch.fhaas.real_estate_rest_api.services.entity_services
 
-import ch.fhaas.real_estate_rest_api.entity.Burger
 import ch.fhaas.real_estate_rest_api.entity.Episode
 import ch.fhaas.real_estate_rest_api.entity.Season
-import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
-import ch.fhaas.real_estate_rest_api.services.ResultHandler
+import kong.unirest.core.json.JSONArray
+import kong.unirest.core.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Service
 class BurgerService(
-    jsonReader: JsonReader,
-    resultHandler: ResultHandler,
     requestClient: RequestClient
-) : EntityService<Burger>(jsonReader, resultHandler, requestClient, "burger", jsonReader::getBurger) {
+) : EntityService(requestClient, "/burger") {
 
-    fun getByName(name: String): Burger? =
-        get("?name=$name")
+    fun getByName(name: String): JSONObject =
+        get("?name=$name", 0).getJSONObject(0)
 
-    fun getByPrice(price: Double, amount: Int = 0): List<Burger> =
-        getAmount("?price=$price", amount)
+    fun getByPrice(price: Double, amount: Int = 0): JSONArray =
+        get("?price=$price", amount)
 
-    fun getBySeason(season: Season, amount: Int): List<Burger> =
-        getAmount("?season=${season.seasonNum}", amount)
+    fun getBySeason(season: Season, amount: Int): JSONArray =
+        get("?season=${season.seasonNum}", amount)
 
-    fun getBySeason(season: Int, amount: Int): List<Burger> =
-        getAmount("?season=${season}", amount)
+    fun getBySeason(season: Int, amount: Int): JSONArray =
+        get("?season=${season}", amount)
 
-    fun getByEpisode(episode: Episode): Burger? =
-        get("?episode=${episode.episodeNum}")
+    fun getByEpisode(episode: Episode): JSONObject =
+        get("?episode=${episode.episodeNum}", 0).getJSONObject(0)
 
-    fun getByEpisode(episode: Int): Burger? =
-        get("?episode=${episode}")
+    fun getByEpisode(episode: Int): JSONObject =
+        get("?episode=${episode}", 0).getJSONObject(0)
 }

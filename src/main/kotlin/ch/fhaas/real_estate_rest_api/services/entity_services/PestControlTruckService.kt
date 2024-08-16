@@ -1,34 +1,27 @@
 package ch.fhaas.real_estate_rest_api.services.entity_services
 
 import ch.fhaas.real_estate_rest_api.entity.Episode
-import ch.fhaas.real_estate_rest_api.entity.PestControlTruck
 import ch.fhaas.real_estate_rest_api.entity.Season
-import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestClient
-import ch.fhaas.real_estate_rest_api.services.ResultHandler
+import kong.unirest.core.json.JSONArray
+import kong.unirest.core.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Service
-class PestControlTruckService(
-    jsonReader: JsonReader,
-    resultHandler: ResultHandler,
-    requestClient: RequestClient,
-): EntityService<PestControlTruck>(jsonReader, resultHandler, requestClient, "pestControlTruck", jsonReader::getPestControlTruck) {
+class PestControlTruckService(requestClient: RequestClient) : EntityService(requestClient, "/pestControlTruck") {
 
-    fun getByName(name: String): PestControlTruck? =
-        get("?name=$name")
+    fun getByName(name: String): JSONObject =
+        get("?name=$name", 0).getJSONObject(0)
 
-    fun getBySeason(season: Season, amount: Int = 0): List<PestControlTruck> =
-        getAmount("?season=${season.seasonNum}", amount)
+    fun getBySeason(season: Season, amount: Int = 0): JSONArray =
+        get("?season=${season.seasonNum}", amount)
 
-    fun getBySeason(season: Int, amount: Int = 0): List<PestControlTruck> =
-        getAmount("?season=$season", amount)
+    fun getBySeason(season: Int, amount: Int = 0): JSONArray =
+        get("?season=$season", amount)
 
-    fun getByEpisode(episode: Episode): PestControlTruck? =
-        get("?episode=${episode.episodeNum}")
+    fun getByEpisode(episode: Episode): JSONObject =
+        get("?episode=${episode.episodeNum}", 0).getJSONObject(0)
 
-    fun getByEpisode(episode: Int): PestControlTruck? =
-        get("?episode=${episode}")
-
-
+    fun getByEpisode(episode: Int): JSONObject =
+        get("?episode=${episode}", 0).getJSONObject(0)
 }
