@@ -1,13 +1,13 @@
 package ch.fhaas.real_estate_rest_api.services
 
 import ch.fhaas.real_estate_rest_api.entity.*
+import ch.fhaas.real_estate_rest_api.services.entity_services.EpisodeService
 import kong.unirest.core.json.JSONArray
 import kong.unirest.core.json.JSONObject
 import org.springframework.stereotype.Service
 
-
 @Service
-class JsonReader(private val resultHandler: ResultHandler) {
+class JsonReader(private val episodeService: EpisodeService) {
 
     fun getCharacter(json: JSONObject): Character? =
             Character(
@@ -20,7 +20,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 hair = json.getString("hair"),
                 occupation = getOccupation(json.getJSONObject("occupation")),
                 allOccupations = getListOf(json.getJSONArray("allOccupations"), this::getOccupation),
-                firstEpisode = getEpisode(json.getJSONObject("firstEpisode")),
+                firstEpisode = requestEpisode(json.getInt("firstEpisode")),
                 voicedBy = getVoiceActor(json.getJSONObject("voicedBy"))
             )
 
@@ -35,17 +35,15 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 wikiUrl = json.getString("wikiUrl"),
                 productionCode = json.getString("productionCode"),
                 airDate = json.getString("airDate"),
-                season = getSeason(json.getJSONObject("season")),
+                season = getSeason(json),
                 episodeNum = json.getInt("episode"),
                 totalViewers = json.getInt("totalViewers")
             )
-
 
     fun getSeason(json: JSONObject): Season? =
         Season(
             seasonNum = json.getInt("season")
         )
-
 
     fun getRelative(json: JSONObject): Relative =
             Relative(
@@ -54,12 +52,10 @@ class JsonReader(private val resultHandler: ResultHandler) {
                 relation = json.getString("relationship")
             )
 
-
     fun getOccupation(json: JSONObject): Occupation? =
             Occupation(
                 name = json.getString("name"),
             )
-
 
     fun getBurger(json: JSONObject): Burger? =
         Burger(
@@ -67,7 +63,7 @@ class JsonReader(private val resultHandler: ResultHandler) {
             wikiUrl = json.getString("wikiUrl"),
             price = json.getDouble("price"),
             season = getSeason(json.getJSONObject("season")),
-            episode = getEpisode(json.getJSONObject("episode"))
+            episode = requestEpisode(json.getInt("episode"))
         )
 
     fun getPestControlTruck(json: JSONObject): PestControlTruck? =
@@ -75,24 +71,9 @@ class JsonReader(private val resultHandler: ResultHandler) {
             name = json.getString("name"),
             wikiUrl = json.getString("wikiUrl"),
             season = getSeason(json.getJSONObject("season")),
-            episode = getEpisode(json.getJSONObject("episode")),
+            episode = requestEpisode(json.getInt("episode")),
             imageUrl = json.getString("url")
         )
-
-    fun getStoreNextDoor(json: JSONObject): StoreNextDoor? =
-        StoreNextDoor(
-            name = json.getString("name"),
-            wikiUrl = json.getString("wikiUrl"),
-            firstSeason = getSeason(json.getJSONObject("season")),
-            firstEpisode = getEpisode(json.getJSONObject("episode")),
-            imageUrl = json.getString("url")
-        )
-
-    fun <T : Entity> getResultOfEntity(entity: T): Result<T> = try {
-        Result.success(entity)
-    } catch (e: NullPointerException) {
-        Result.failure(e)
-    }
 
     fun <T : Entity> getListOf(json: JSONArray, getEntity: (obj: JSONObject) -> (T?)): List<T> =
         (0 until json.length()).fold(emptyList()) { list, index ->
@@ -101,11 +82,8 @@ class JsonReader(private val resultHandler: ResultHandler) {
             entity?.let { list + entity } ?: list
         }
 
-
-    fun <T : Entity> getResultOfArray(json: JSONArray, getEntity: (obj: JSONObject) -> (Result<T>)): List<Result<T>> =
-        (0 until json.length()).fold(emptyList()) { list, index ->
-            val obj = json.getJSONObject(index)
-            val result: Result<T> = getEntity(obj)
-            return list + result
-        }
+    private fun requestEpisode(index: Int): Episode? {
+        val json: JSONObject = episodeService.getByIndex(index)
+        return getEpisode(json)
+    }
 }
