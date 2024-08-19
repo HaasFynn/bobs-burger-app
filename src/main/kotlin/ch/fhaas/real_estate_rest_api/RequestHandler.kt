@@ -4,6 +4,7 @@ import ch.fhaas.real_estate_rest_api.entity.*
 import ch.fhaas.real_estate_rest_api.services.JsonReader
 import ch.fhaas.real_estate_rest_api.services.RequestBuilder
 import ch.fhaas.real_estate_rest_api.services.RequestClient
+import ch.fhaas.real_estate_rest_api.services.entity_services.CharacterService
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*
 class RequestHandler(
     private val requestBuilder: RequestBuilder,
     private val jsonReader: JsonReader,
-    private val requestClient: RequestClient
+    private val requestClient: RequestClient,
+    private val characterService: CharacterService
 ) {
 
 
@@ -55,29 +57,31 @@ class RequestHandler(
     @ResponseBody
     private fun getCharacter(
         @RequestParam(name = "amount", required = false)
-        amount: Int?,
+        amount: Int = 0,
         @RequestParam(name = "name", required = false)
-        name: String?,
+        name: String = "",
         @RequestParam(name = "gender", required = false)
-        gender: String?,
+        gender: String = "",
         @RequestParam(name = "age", required = false)
-        age: Int?,
+        age: Int = 0,
         @RequestParam(name = "hair", required = false)
-        hair: String?,
+        hair: String = "",
         @RequestParam(name = "occupation", required = false)
-        occupation: String?,
+        occupation: String = "f",
         @RequestParam(name = "episode", required = false)
-        episode: Int?,
+        episode: Int = 0,
         @RequestParam(name = "voiceActor", required = false)
-        voiceActor: String?
+        voiceActor: String = ""
     ): ResponseEntity<Character> {
-        val map: HashMap<String, Any?> =
-            parametersToHashMap(Character.searchKeys, amount, name, gender, age, hair, occupation, episode, voiceActor)
+        val map = parametersToHashMap(Character.searchKeys, amount, name, gender, age, hair, occupation, episode, voiceActor)
+
         val url: String = requestBuilder.buildUrl("character", map)
+
         val character = jsonReader.getCharacter(
             requestClient.request(url).`object`
         )
-        return character?.let { ResponseEntity(character, HttpStatus.OK) } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        //return character?.let { ResponseEntity(character, HttpStatus.OK) } ?: ResponseEntity(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.ok(jsonReader.getCharacter(characterService.getByName("\"Dottie Minerva\"")))
     }
 
     @GetMapping(
@@ -161,8 +165,27 @@ class RequestHandler(
         TODO("Implement me")
     }
 
-    fun parametersToHashMap(keys: Array<String>, vararg params: Any?): HashMap<String, Any?> =
-        keys.zip(params).toMap() as HashMap<String, Any?>
+    fun parametersToHashMap(keys: Array<String>, vararg params: Any): HashMap<String, Any> {
+        filterParameters(params)
+        return keys.zip(params).toMap() as HashMap<String, Any>
+    }
+
+    private fun filterParameters(vararg params: Any): Array<Any> {
+        return params.fold(emptyArray()) { array, parameter ->
+            when {
+                parameter is String && parameter == "" -> {
+                    return array
+                }
+                parameter is Int && parameter == 0 -> {
+                    return array
+                }
+                parameter is Double && parameter == 0.0 -> {
+                    return array
+                }
+                else -> return array + parameter
+            }
+        }
+    }
 
 
 }
