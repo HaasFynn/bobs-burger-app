@@ -1,10 +1,9 @@
 # Bob's Burger App
 
-## In Progress
+## In progress
+### Creating frontend
 
-### Does currently not work!
+### API works
 Data is being Requested from: https://github.com/zachspiel/bobs-burgers-api
 
-## Current Work
-
-#### Implement RequestMapping*
+Runs on standard on port: 8080 
